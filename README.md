@@ -11,6 +11,9 @@ CryptesDeNex-Neo/index.html
 > Doublie-clique `index.html` pour jouer. Si ton navigateur bloque le chargement
 > local, lance `.\play.ps1` (un petit serveur Python sert alors les fichiers).
 
+**Code sous droits réservés** — voir [LICENSE](LICENSE). Tu peux le lire, le
+jouer et l'étudier ; tu ne peux pas le redistribuer sans me demander.
+
 ---
 
 ## Ce qui a changé par rapport à la version C#

@@ -15,5 +15,5 @@
     "start": "start index.html"
   },
   "keywords": ["roguelike", "canvas", "javascript", "game"],
-  "license": "MIT"
+  "license": "UNLICENSED"
 }

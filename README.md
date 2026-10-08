@@ -4,6 +4,8 @@ Le même roguelike que la version console, **réécrit en JavaScript** pour le
 navigateur. Aucune installation, aucune dépendance : tu double-cliques et ça
 joue.
 
+### ▶ [**Jouer en ligne**](https://nono433.github.io/cryptes-de-nex-neo/) — rien à installer
+
 ```
 CryptesDeNex-Neo/index.html
 ```

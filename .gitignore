@@ -1,0 +1,18 @@
+# Dépendances optionnelles (utilisées seulement par les outils de capture)
+node_modules/
+package-lock.json
+
+# Images générées par `npm run shots` et `npm run spritesheet`
+shots/
+
+# Système et éditeurs
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+.idea/
+*.swp
+
+# Divers
+*.log
+npm-debug.log*

@@ -1,0 +1,19 @@
+{
+  "name": "cryptes-de-nex-neo",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Cryptes de Nex — Néo : roguelike web en canvas, 40 profondeurs",
+  "scripts": {
+    "test": "node test/sprites.js && node test/smoke.js && node test/render.js && node test/boot.js",
+    "test:sprites": "node test/sprites.js",
+    "test:smoke": "node test/smoke.js",
+    "test:render": "node test/render.js",
+    "test:boot": "node test/boot.js",
+    "shots": "node test/shots.js",
+    "spritesheet": "node test/spritesheet.js",
+    "serve": "npx --yes http-server . -p 8123 -c-1 --silent",
+    "start": "start index.html"
+  },
+  "keywords": ["roguelike", "canvas", "javascript", "game"],
+  "license": "MIT"
+}

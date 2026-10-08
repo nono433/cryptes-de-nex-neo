@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Cryptes de Nex — Néo</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div id="bg"><canvas id="bgCanvas"></canvas></div>
+
+<div id="app">
+
+  <header id="topbar">
+    <div class="brand">
+      <span class="brand-mark">◈</span>
+      <span class="brand-name">CRYPTES DE NEX</span>
+      <span class="brand-sub">NÉO</span>
+    </div>
+    <div class="depth-chip">
+      <span class="depth-label">PROFONDEUR</span>
+      <span id="depthNum">1</span><span class="depth-of">/40</span>
+      <span id="depthName">Les Marches Noyées</span>
+    </div>
+    <div class="top-actions">
+      <span class="seed-chip" id="seedChip" title="Graine de la partie">#0000</span>
+      <button class="tbtn" id="btnSound" title="Son (M)">♪</button>
+      <button class="tbtn" id="btnHelp" title="Aide (H)">?</button>
+    </div>
+  </header>
+
+  <main id="stage">
+
+    <aside id="left" class="panel-col">
+      <section class="card hero-card">
+        <div class="hero-head">
+          <div class="hero-avatar" id="heroAvatar"></div>
+          <div class="hero-id">
+            <div class="hero-name">L'Éclaireur</div>
+            <div class="hero-level">Niveau <b id="statLevel">1</b></div>
+          </div>
+        </div>
+
+        <div class="bar hp">
+          <div class="bar-fill" id="hpFill"></div>
+          <span class="bar-text"><b id="hpNow">30</b> / <span id="hpMax">30</span></span>
+          <span class="bar-tag">VITALITÉ</span>
+        </div>
+        <div class="bar xp">
+          <div class="bar-fill" id="xpFill"></div>
+          <span class="bar-text"><b id="xpNow">0</b> / <span id="xpNext">20</span> XP</span>
+          <span class="bar-tag">EXPÉRIENCE</span>
+        </div>
+
+        <div class="stats">
+          <div class="stat"><span class="sk">ATQ</span><span class="sv" id="statAtk">5</span></div>
+          <div class="stat"><span class="sk">DFO</span><span class="sv" id="statDef">1</span></div>
+          <div class="stat"><span class="sk">CRIT</span><span class="sv" id="statCrit">10%</span></div>
+          <div class="stat"><span class="sk">ESQ</span><span class="sv" id="statDodge">5%</span></div>
+          <div class="stat"><span class="sk">VUE</span><span class="sv" id="statSight">8</span></div>
+          <div class="stat gold"><span class="sk">OR</span><span class="sv" id="statGold">0</span></div>
+        </div>
+
+        <div class="kit" id="kitRow"></div>
+      </section>
+
+      <section class="card mini-card">
+        <h3 class="card-title">Équipement</h3>
+        <div class="gear-list" id="gearList"></div>
+        <div class="sets" id="setList"></div>
+      </section>
+    </aside>
+
+    <div id="canvasWrap">
+      <canvas id="game"></canvas>
+      <div id="depthCard"><div class="dc-num">PROFONDEUR 1</div><div class="dc-name"></div><div class="dc-tag"></div></div>
+      <div id="hint" class="hint"></div>
+      <div id="toasts"></div>
+    </div>
+
+    <aside id="right" class="panel-col">
+      <section class="card map-card">
+        <h3 class="card-title">Plan de l'étage</h3>
+        <canvas id="minimap" width="240" height="80"></canvas>
+      </section>
+      <section class="card log-card">
+        <h3 class="card-title">Journal</h3>
+        <div id="log"></div>
+      </section>
+    </aside>
+
+  </main>
+
+  <footer id="hotbar"></footer>
+
+</div>
+
+<!-- ================= SUPERPOSITIONS ================= -->
+
+<div class="overlay" id="ovTitle">
+  <div class="ov-inner title-inner">
+    <div class="title-glyphs">◈ ◈ ◈</div>
+    <h1 class="big-title">CRYPTES<span>DE</span>NEX</h1>
+    <p class="big-sub">édition <b>néo</b> — quarante profondeurs, une seule amulette</p>
+    <div class="title-keys">
+      <span><kbd>Z</kbd><kbd>Q</kbd><kbd>S</kbd><kbd>D</kbd> / <kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> se déplacer</span>
+      <span><kbd>I</kbd> sac</span>
+      <span><kbd>C</kbd> héros</span>
+      <span><kbd>X</kbd> autel</span>
+      <span><kbd>&gt;</kbd> descendre</span>
+      <span><kbd>Espace</kbd> attendre</span>
+      <span><kbd>H</kbd> aide</span>
+    </div>
+    <button class="btn-big" id="btnStart">Descendre dans les cryptes</button>
+    <div class="title-foot">
+      <label class="seed-input">graine <input id="seedInput" type="text" placeholder="aléatoire" maxlength="12"></label>
+      <span class="hint-small">Entrée ou Espace pour commencer</span>
+    </div>
+  </div>
+</div>
+
+<div class="overlay hidden" id="ovBag">
+  <div class="ov-inner">
+    <div class="ov-head"><h2>Sac</h2><span class="ov-sub" id="bagCount"></span><button class="x" data-close="ovBag">✕</button></div>
+    <div class="bag-grid" id="bagGrid"></div>
+    <p class="ov-hint">Clic ou <kbd>1</kbd>…<kbd>9</kbd> pour utiliser · <kbd>I</kbd> / <kbd>Échap</kbd> pour fermer</p>
+  </div>
+</div>
+
+<div class="overlay hidden" id="ovHero">
+  <div class="ov-inner">
+    <div class="ov-head"><h2>Fiche du héros</h2><button class="x" data-close="ovHero">✕</button></div>
+    <div class="hero-sheet" id="heroSheet"></div>
+    <p class="ov-hint"><kbd>C</kbd> ou <kbd>Échap</kbd> pour fermer</p>
+  </div>
+</div>
+
+<div class="overlay hidden" id="ovForge">
+  <div class="ov-inner forge-inner">
+    <div class="ov-head"><h2>Autel du fondeur</h2><span class="ov-sub" id="forgeGold"></span><button class="x" data-close="ovForge">✕</button></div>
+    <div class="forge-grid" id="forgeGrid"></div>
+    <p class="ov-hint">Clic ou <kbd>1</kbd>…<kbd>6</kbd> pour acheter · la pièce s'enfile aussitôt</p>
+  </div>
+</div>
+
+<div class="overlay hidden" id="ovHelp">
+  <div class="ov-inner">
+    <div class="ov-head"><h2>Comment jouer</h2><button class="x" data-close="ovHelp">✕</button></div>
+    <div class="help-cols">
+      <div>
+        <h4>Commandes</h4>
+        <table class="keys">
+          <tr><td><kbd>Z</kbd><kbd>Q</kbd><kbd>S</kbd><kbd>D</kbd> <kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> flèches</td><td>se déplacer</td></tr>
+          <tr><td>Cliquer sur un monstre adjacent</td><td>attaquer (ou marcher dessus)</td></tr>
+          <tr><td><kbd>Espace</kbd> ou <kbd>.</kbd></td><td>attendre un tour</td></tr>
+          <tr><td><kbd>&gt;</kbd> ou <kbd>Entrée</kbd></td><td>descendre l'escalier</td></tr>
+          <tr><td><kbd>I</kbd></td><td>ouvrir le sac</td></tr>
+          <tr><td><kbd>C</kbd></td><td>fiche du héros</td></tr>
+          <tr><td><kbd>X</kbd></td><td>commercer sur un autel</td></tr>
+          <tr><td><kbd>1</kbd>…<kbd>9</kbd></td><td>utiliser un objet du sac</td></tr>
+          <tr><td><kbd>H</kbd> ou <kbd>?</kbd></td><td>cette aide</td></tr>
+          <tr><td><kbd>M</kbd></td><td>couper le son</td></tr>
+          <tr><td><kbd>R</kbd></td><td>nouvelle partie</td></tr>
+          <tr><td><kbd>Échap</kbd></td><td>fermer / pause</td></tr>
+        </table>
+      </div>
+      <div>
+        <h4>Les cryptes</h4>
+        <p>Quarante profondeurs séparent la surface de l'<b>Amulette de Nex</b>. Elles s'enfoncent au fur et à mesure : chaque étage est plus sombre, plus glacé, et ses monstres plus puissants. Au quarantième il n'y a plus d'escalier — il faut abattre le <b>Gardien</b>.</p>
+        <h4>Regarde avant de frapper</h4>
+        <p>Tu ne vois que dans un cône de <b id="helpSight">8</b> cases, et les casques et bottes l'élargissent. Les monstres ne te voient que si tu les vois : contourne-les, ou frappe le premier.</p>
+        <h4>Le décor</h4>
+        <p><span class="sw water"></span><b>eau</b> : infranchissable, mais on voit au travers · <span class="sw trap"></span><b>piège</b> : se déclenche une fois · <span class="sw altar"></span><b>autel</b> : <kbd>X</kbd> pour commercer · <span class="sw stairs"></span><b>escalier</b> : <kbd>&gt;</kbd> pour descendre.</p>
+        <h4>L'équipement</h4>
+        <p>Six emplacements — arme, armure, casque, bottes, anneau, talisman — et quatre paliers : <b class="t1">commun</b>, <b class="t2">rare</b>, <b class="t3">épique</b>, <b class="t4">de nex</b>. Porter plusieurs pièces du même ensemble (cendre, fondeur, nex) débloque des bonus supplémentaires.</p>
+        <p class="ov-dim">Une pièce moins bonne que celle que tu portes est jetée automatiquement : ton sac ne se remplit jamais de ferraille.</p>
+      </div>
+    </div>
+    <p class="ov-hint"><kbd>H</kbd> ou <kbd>Échap</kbd> pour fermer</p>
+  </div>
+</div>
+
+<div class="overlay hidden" id="ovEnd">
+  <div class="ov-inner end-inner">
+    <div class="end-glyph" id="endGlyph">☠</div>
+    <h1 class="end-title" id="endTitle">TU ES MORT</h1>
+    <p class="end-sub" id="endSub"></p>
+    <div class="end-stats" id="endStats"></div>
+    <button class="btn-big" id="btnRestart">Recommencer</button>
+  </div>
+</div>
+
+<div id="tooltip" class="tooltip hidden"></div>
+
+<script src="js/rng.js"></script>
+<script src="js/sprites.js"></script>
+<script src="js/data.js"></script>
+<script src="js/items.js"></script>
+<script src="js/world.js"></script>
+<script src="js/game.js"></script>
+<script src="js/fx.js"></script>
+<script src="js/audio.js"></script>
+<script src="js/render.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
